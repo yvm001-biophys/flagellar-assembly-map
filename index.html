@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore flagellar assembly, deletion phenotypes, wild-type comparisons and evidence across four bacterial species.">
+  <meta name="theme-color" content="#07151f">
+  <title>Flagellar Assembly Map</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307151f'/%3E%3Ccircle cx='25' cy='40' r='8' fill='none' stroke='%2347d7c5' stroke-width='5'/%3E%3Cpath d='M25 32V20c0-7 7-8 7-14M25 20c0-7-7-8-7-14' fill='none' stroke='%23ffb86b' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">ϟ</span>
+      <div><strong>Flagellar Assembly Map</strong><span>欠損で、どこまで組み上がるか</span></div>
+    </div>
+    <button class="method-button" id="methodButton" type="button">判定基準・文献</button>
+  </header>
+
+  <main>
+    <aside id="auditNotice" class="review-notice" aria-label="Scope"></aside>
+    <section class="species-strip" aria-label="菌種を選択">
+      <div class="species-tabs" id="speciesTabs"></div>
+      <div class="strain-note" id="strainNote"></div>
+    </section>
+
+    <section class="workspace">
+      <aside class="catalog-panel">
+        <div class="catalog-head">
+          <div>
+            <span class="eyebrow">PROTEIN CATALOG</span>
+            <h1>欠損タンパク質</h1>
+          </div>
+          <span class="count" id="resultCount"></span>
+        </div>
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="proteinSearch" type="search" placeholder="遺伝子名・機能で検索" autocomplete="off">
+        </label>
+        <div class="filter-row" id="filterRow" aria-label="分類で絞り込み"></div>
+        <div class="protein-list" id="proteinList" aria-label="タンパク質一覧"></div>
+      </aside>
+
+      <section class="visual-panel">
+        <div class="visual-head">
+          <div>
+            <span class="eyebrow">ASSEMBLY ENDPOINT</span>
+            <h2 id="endpointTitle">—</h2>
+          </div>
+          <div class="legend" aria-label="凡例">
+            <span><i class="dot built"></i>構築される</span>
+            <span><i class="dot affected"></i>欠損の影響点</span>
+            <span><i class="dot absent"></i>形成されない</span>
+            <span><i class="dot warn"></i><span id="uncertainLegend"></span></span>
+          </div>
+        </div>
+        <div class="diagram-wrap">
+          <svg id="flagellumDiagram" viewBox="0 0 760 530" role="img" aria-labelledby="diagramTitle diagramDesc">
+            <title id="diagramTitle">べん毛構築停止段階</title>
+            <desc id="diagramDesc">選択したタンパク質を欠損したときに構築される部分と形成されない部分を示す模式図</desc>
+          </svg>
+          <div class="stage-rail" id="stageRail" aria-label="構築段階"></div>
+        </div>
+      </section>
+
+      <aside class="detail-panel" id="detailPanel" aria-live="polite"></aside>
+    </section>
+
+    <section class="compare-section"><div class="compare-head"><div><span class="eyebrow">WILD TYPE / DELETION</span><h2>野生型との並列比較</h2></div><span id="comparisonSpecies"></span></div><div class="wt-grid"><article><h3>野生型（基準モデル）</h3><svg id="wildtypeDiagram" viewBox="0 0 760 530" role="img"></svg><div id="wildtypeRail" class="stage-rail"></div></article><article><h3 id="mutantHeading"></h3><svg id="mutantDiagram" viewBox="0 0 760 530" role="img"></svg><div id="mutantRail" class="stage-rail"></div></article></div><div id="wildtypeDifferences" class="table-scroll"></div></section>
+    <section class="compare-section phenotype-section">
+      <div class="compare-head"><div><span class="eyebrow">PHENOTYPE → CANDIDATE GENES</span><h2>表現型から欠損候補を絞り込む</h2></div><button type="button" class="method-button" id="resetPhenotype">条件をクリア</button></div>
+      <p>上で選択した菌種が対象です。観察できた項目だけを選んでください。</p>
+      <p id="structuralObservationNote">固定子・輸送装置の「あり／なし」は模式図での組立・局在を示します。細胞内のタンパク質発現量とは異なります。観察できていなければ未観察のままにしてください。</p>
+      <div id="phenotypeControls" class="phenotype-controls"></div>
+      <p class="prediction-note">収載された構築モデルとの照合であり、検証済みの予測器・確率ではありません。同じ表現型を示す遺伝子は区別できず、株・培養条件・極性効果・未収載遺伝子も影響します。複数遺伝子のカードは群単位の候補です。</p>
+      <h3>追加観察の提案</h3><div id="nextObservations"></div>
+      <div id="phenotypeResults" class="phenotype-results" aria-live="polite"></div>
+    </section>
+
+    <section class="compare-section">
+      <div class="compare-head">
+        <div><span class="eyebrow">CROSS-SPECIES VIEW</span><h2>4菌種で対応関係を比較</h2></div>
+        <div class="compare-control">
+          <label for="compareGene">全収載遺伝子から比較</label>
+          <select id="compareGene"></select>
+        </div>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </section>
+  </main>
+
+  <dialog id="methodDialog">
+    <form method="dialog" class="dialog-card">
+      <button class="close-button" aria-label="閉じる">×</button>
+      <span class="eyebrow">SCOPE & EVIDENCE</span>
+      <h2>判定基準と注意点</h2>
+      <p>モデル予測と原著の実験結果を区別します。文献リンクは登録情報であり、各欠損の直接証拠を保証しません。</p><ul><li>原著の株・実験条件・図番号が未確認の項目は未照合と表示します。</li><li>追加観察は矛盾のない候補を対象に、既知の予測が異なる組合せ数で順位付けします。未知の結果は候補除外に使いません。</li><li>株、培地、発現量、極性効果で表現型が変わる場合があります。</li></ul>
+      <button class="primary-button">閉じる</button>
+    </form>
+  </dialog>
+  <script src="locale.js"></script><script src="research.js"></script><script src="audit.js"></script><script src="components.js"></script><script src="app.js"></script>
+</body>
+</html>
