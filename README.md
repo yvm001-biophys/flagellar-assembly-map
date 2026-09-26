@@ -14,8 +14,8 @@ Open [Flagellar Assembly Map](https://flagellar-assembly-map.yvm001.chatgpt.site
 2. Search or filter **Protein catalog** and select a deletion. The catalog currently contains **73 entries across the four species**; some entries group several genes. It is a selected catalog, not an exhaustive genome-wide list.
 3. Read **Assembly endpoint** and **Selected deletion** together. The illustration distinguishes parts modeled as built, an affected/deleted part, structures modeled as absent, and uncertain or conditional outcomes. The selected card provides function, caveats, evidence context, and links to literature. Its UniProt link performs a **gene/organism search**, rather than opening a verified strain-specific protein accession.
 4. Check **Wild type / deletion** to compare the selected mutant with an idealized wild-type reference side by side. The reference is a model, not a measured control.
-5. Under **Find deletion candidates from phenotypes**, enter only observations you actually have. Choices include rod, hook, filament, rotation, assembled/engaged stators, assembled export gate (FliPQR), assembled export platform (FlhAB), assembled ATPase complex (FliHIJ), and flagellar placement. Leave unmeasured features as **unobserved**; a question about a localized complex does not mean cellular protein abundance. Read the candidate lists and the **suggested next observation** together. Clear the inputs when changing the question; switching species also clears observations.
-6. In **Cross-species view**, select any **cataloged** gene/group for a four-species comparison. A missing entry means *not cataloged*, rather than a demonstrated absence of the gene in that organism.
+5. Under **Find deletion candidates from phenotypes**, enter only observations you actually have. Choices include rod, hook, filament, rotation, assembled/engaged stators, P/L rings (outer-membrane species only), assembled export gate (FliPQR), assembled export platform (FlhAB), assembled ATPase complex (FliHIJ), and flagellar placement. Hook presence alone does not establish normal length; reduced filament abundance and abnormal morphology share one broad option. Leave unmeasured features as **unobserved**; a question about a localized complex does not mean cellular protein abundance. Read the candidate lists and the **suggested next observation** together. Clear the inputs when changing the question; switching species also clears observations.
+6. **Cross-species view** follows the selected deletion. Choosing a comparison group also selects its counterpart in the current species; if that group is not cataloged there, the view switches to a species with a cataloged counterpart. A missing entry in another species means *not cataloged*, rather than a demonstrated absence of the gene in that organism.
 
 The application links to sources and distinguishes direct observations from homology-based or model-inferred claims. An article linked to a card does not automatically document the precise deletion, strain, assay, or structural outcome on that card. **Scope & evidence** in the interface and [REVIEW.md](REVIEW.md) explain this distinction.
 
@@ -51,8 +51,8 @@ The tests check all 73 catalog entries, diagram/model consistency, representativ
 2. **欠損タンパク質一覧**を検索・分類で絞り込み、遺伝子または遺伝子群を選びます。現在は4菌種合わせて**73件**です。複数遺伝子をまとめたカードがあり、全遺伝子の網羅的なデータベースではありません。
 3. **構築の到達点**と**選択した欠損の説明**を確認します。模式図は構築された部位、欠損の影響点、形成されない部位、条件付き・不確実な判定を区別します。機能、注意点、文献情報を併せて読んでください。UniProtへのリンクは**遺伝子名と菌種による検索**であり、その株・遺伝子のアクセッション番号を個別に検証したリンクではありません。
 4. **野生型との並列比較**では、理想化した野生型モデルと欠損モデルを比較します。野生型図は実測対照ではありません。
-5. **表現型から欠損候補を絞り込む**では、実際に観察した項目だけを入力します。対象はロッド、フック、フィラメント、回転、固定子の装着、輸送ゲート FliPQR、FlhAB、FliHIJ の組立・局在、べん毛形成位置です。測定していない項目は**未観察**のままにします。構造の組立・局在と、細胞内でのタンパク質発現量は別の観察です。候補と**追加観察の提案**を併せて確認します。菌種を切り替えると観察条件はクリアされます。
-6. **CROSS-SPECIES VIEW** では、収載された任意の遺伝子・遺伝子群を4菌種で比較できます。表示がない場合は**未収載**を意味し、その菌種のゲノムに存在しないことを意味しません。
+5. **表現型から欠損候補を絞り込む**では、実際に観察した項目だけを入力します。対象はロッド、フック、フィラメント、回転、固定子の装着、外膜を持つ菌種のP/Lリング、輸送ゲート FliPQR、FlhAB、FliHIJ の組立・局在、バクテリアべん毛の形成位置です。フックがあるだけでは正常長とは判定しません。フィラメントの減少と形態異常は幅のある選択肢として扱います。測定していない項目は**未観察**のままにします。構造の組立・局在と、細胞内でのタンパク質発現量は別の観察です。候補と**追加観察の提案**を併せて確認します。菌種を切り替えると観察条件はクリアされます。
+6. **CROSS-SPECIES VIEW** は欠損遺伝子の選択に連動します。比較欄から選んだ場合も、現在の菌種の対応カードを選びます。そこに収載がない場合は、対応カードのある菌種へ切り替えます。他菌種の空欄は**未収載**を意味し、ゲノムに遺伝子が存在しないことを意味しません。
 
 ### 結果の読み方と注意点
 

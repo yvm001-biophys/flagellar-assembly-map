@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Explore flagellar assembly, deletion phenotypes, wild-type comparisons and evidence across four bacterial species.">
   <meta name="theme-color" content="#07151f">
-  <title>Flagellar Assembly Map</title>
+  <title>Flagellar Assembly Map — Bacterial Flagellar Assembly</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307151f'/%3E%3Ccircle cx='25' cy='40' r='8' fill='none' stroke='%2347d7c5' stroke-width='5'/%3E%3Cpath d='M25 32V20c0-7 7-8 7-14M25 20c0-7-7-8-7-14' fill='none' stroke='%23ffb86b' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,8 +13,9 @@
   <header class="topbar">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">ϟ</span>
-      <div><strong>Flagellar Assembly Map</strong><span>欠損で、どこまで組み上がるか</span></div>
+      <div><strong>Flagellar Assembly Map</strong><span>バクテリアべん毛は、欠損でどこまで組み上がるか</span></div>
     </div>
+    <a class="method-button readme-link" href="README.md" target="_blank" rel="noopener noreferrer">README</a>
     <button class="method-button" id="methodButton" type="button">判定基準・文献</button>
   </header>
 
@@ -57,8 +58,8 @@
         </div>
         <div class="diagram-wrap">
           <svg id="flagellumDiagram" viewBox="0 0 760 530" role="img" aria-labelledby="diagramTitle diagramDesc">
-            <title id="diagramTitle">べん毛構築停止段階</title>
-            <desc id="diagramDesc">選択したタンパク質を欠損したときに構築される部分と形成されない部分を示す模式図</desc>
+            <title id="diagramTitle">バクテリアべん毛の構築停止段階</title>
+            <desc id="diagramDesc">バクテリアべん毛のタンパク質を欠損したときに構築される部分と形成されない部分を示す模式図</desc>
           </svg>
           <div class="stage-rail" id="stageRail" aria-label="構築段階"></div>
         </div>
@@ -71,7 +72,7 @@
     <section class="compare-section phenotype-section">
       <div class="compare-head"><div><span class="eyebrow">PHENOTYPE → CANDIDATE GENES</span><h2>表現型から欠損候補を絞り込む</h2></div><button type="button" class="method-button" id="resetPhenotype">条件をクリア</button></div>
       <p>上で選択した菌種が対象です。観察できた項目だけを選んでください。</p>
-      <p id="structuralObservationNote">固定子・輸送装置の「あり／なし」は模式図での組立・局在を示します。細胞内のタンパク質発現量とは異なります。観察できていなければ未観察のままにしてください。</p>
+      <p id="structuralObservationNote">P/Lリング・固定子・輸送装置の「あり／なし」は模式図での組立・局在を示します。細胞内のタンパク質発現量とは異なります。観察できていなければ未観察のままにしてください。P/Lリングは外膜を持つ菌種のみ表示します。</p>
       <div id="phenotypeControls" class="phenotype-controls"></div>
       <p class="prediction-note">収載された構築モデルとの照合であり、検証済みの予測器・確率ではありません。同じ表現型を示す遺伝子は区別できず、株・培養条件・極性効果・未収載遺伝子も影響します。複数遺伝子のカードは群単位の候補です。</p>
       <h3>追加観察の提案</h3><div id="nextObservations"></div>

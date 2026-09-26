@@ -14,6 +14,14 @@ function componentPhenotypes(item,observed={}){
  const stators=systems.map(system=>statorState(item,system));
  const occupancy={built:'present',absent:'absent',deleted:'absent'};
  const f={};
+ if(item.speciesId!=='bacillus'){
+  // Match the two independently drawn bearing rings. ΔflgH retains P;
+  // ΔflgI has neither. Warn/affected geometry is deliberately unknown.
+  const ringState=stateFor(4,item);
+  f.pRing=occupancy[item.key==='flgI'?'absent':item.key==='flgH'?'built':ringState];
+  f.lRing=occupancy[['flgI','flgH'].includes(item.key)?'absent':ringState];
+  if(!f.pRing)delete f.pRing;if(!f.lRing)delete f.lRing;
+ }
  for(const [field,part] of [['exportGate','export'],['exportPlatform','flhAB'],['exportAtpase','fliHIJ']]){
   const value=occupancy[exportState(item,part)];if(value)f[field]=value;
  }

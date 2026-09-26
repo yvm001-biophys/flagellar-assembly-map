@@ -134,7 +134,7 @@ function init(){
   renderSpecies();renderFilters();renderCatalog();renderCompareOptions();selectProtein(state.selected);initPhenotypes();
   $("#proteinSearch").addEventListener("input",e=>{state.query=e.target.value.toLowerCase();renderCatalog()});
   $("#methodButton").addEventListener("click",()=>$("#methodDialog").showModal());
-  $("#compareGene").addEventListener("change",renderCompare);
+  $("#compareGene").addEventListener("change",selectComparedGene);
 }
 
 function renderSpecies(){
@@ -142,7 +142,7 @@ function renderSpecies(){
   document.querySelectorAll(".species-tab").forEach(b=>b.onclick=()=>{
     state.species=b.dataset.species;state.query="";$("#proteinSearch").value="";
     const keys=species[state.species].proteins.map(x=>x.key);if(!keys.includes(state.selected))state.selected=species[state.species].proteins[0].key;
-    renderSpecies();renderCatalog();selectProtein(state.selected);renderCompare();initPhenotypes();
+    renderSpecies();renderCatalog();selectProtein(state.selected,$("#compareGene").value);initPhenotypes();
   });
   $("#strainNote").innerHTML=`<strong>${species[state.species].name}</strong><br>${species[state.species].strain}`;
 }
@@ -162,9 +162,11 @@ function renderCatalog(){
   document.querySelectorAll(".protein-card").forEach(b=>b.onclick=()=>selectProtein(b.dataset.key));
 }
 
-function selectProtein(key){
+function selectProtein(key,preferredCompareId){
   const item=species[state.species].proteins.find(x=>x.key===key)||species[state.species].proteins[0];
   state.selected=item.key;renderCatalog();renderDiagram(item);renderDetail(item);renderWildtypeComparison(item);
+  const group=compareGroups.find(g=>g.id===preferredCompareId&&g.keys.includes(item.key))||compareGroupFor(item);
+  if(group){$("#compareGene").value=group.id;renderCompare()}
   renderReviewNotice();
   $("#endpointTitle").textContent=item.endpoint;
 }
@@ -255,7 +257,25 @@ function renderDetail(item){
 
 function renderCompareOptions(){
   $("#compareGene").innerHTML=Object.entries(categoryNames).map(([category,label])=>`<optgroup label="${label}">${compareGroups.filter(g=>g.category===category).map(g=>`<option value="${g.id}">${g.label}</option>`).join("")}</optgroup>`).join("");
-  $("#compareGene").value="fliC";renderCompare();
+  const selected=species[state.species].proteins.find(x=>x.key===state.selected);
+  $("#compareGene").value=compareGroupFor(selected)?.id||compareGroups[0].id;renderCompare();
+}
+
+function compareGroupFor(item){
+  return item&&(compareGroups.find(g=>g.keys[0]===item.key)||compareGroups.find(g=>g.keys.includes(item.key)));
+}
+
+function selectComparedGene(){
+  const groupId=$("#compareGene").value;
+  let item=compareItemFor(state.species,groupId);
+  state.filter='all';state.query='';$("#proteinSearch").value='';renderFilters();
+  if(!item){
+    const counterpart=Object.keys(species).map(id=>({id,item:compareItemFor(id,groupId)})).find(x=>x.item);
+    if(!counterpart){renderCompare();return}
+    state.species=counterpart.id;renderSpecies();item=counterpart.item;
+    initPhenotypes();
+  }
+  selectProtein(item.key,groupId);
 }
 
 function compareItemFor(speciesId,key){
@@ -293,11 +313,12 @@ function geneNames(item){
   if(item.gene==='flhDC')return ['flhD','flhC'];
   const parts=item.gene.split('/');return parts.map((g,i)=>i&&g.length===1?parts[0].slice(0,-1)+g:g);
 }
-const phenotypeFields=[['rod','ロッド',{'present':'あり','absent':'なし'}],['hook','フック',{'present':'通常長','absent':'なし','long':'異常に長い'}],['filament','フィラメント',{'present':'あり','absent':'なし','abnormal':'短い／不安定'}],['rotation','モーター回転',{'present':'あり','absent':'なし','reduced':'条件依存／低下'}],['statorEngagement','固定子装着',{'present':'あり','partial':'一方のみ','absent':'なし'}],['exportGate','FliPQRゲート',{'present':'あり','absent':'なし'}],['exportPlatform','FlhAB構造',{'present':'あり','absent':'なし'}],['exportAtpase','FliHIJ複合体',{'present':'あり','absent':'なし'}],['placement','数・配置',{'abnormal':'異常'}]];
+const phenotypeFields=[['rod','ロッド',{'present':'あり','absent':'なし'}],['pRing','Pリング',{'present':'あり','absent':'なし'}],['lRing','Lリング',{'present':'あり','absent':'なし'}],['hook','フック',{'present':'あり（長さ未判定）','absent':'なし','long':'異常に長い'}],['filament','フィラメント',{'present':'あり','absent':'なし','abnormal':'減少／形態異常'}],['rotation','モーター回転',{'present':'あり','absent':'なし','reduced':'条件依存／低下'}],['statorEngagement','固定子装着',{'present':'あり','partial':'一方のみ','absent':'なし'}],['exportGate','FliPQRゲート',{'present':'あり','absent':'なし'}],['exportPlatform','FlhAB構造',{'present':'あり','absent':'なし'}],['exportAtpase','FliHIJ複合体',{'present':'あり','absent':'なし'}],['placement','数・配置',{'abnormal':'異常'}]];
+function visiblePhenotypeFields(){return phenotypeFields.filter(([key])=>state.species!=='bacillus'||!['pRing','lRing'].includes(key))}
 function initPhenotypes(){
-  $('#phenotypeControls').innerHTML=phenotypeFields.map(([key,label,options])=>`<label>${label}<select id="phenotype-${key}"><option value="">未観察／不明</option>${Object.entries(options).map(([v,n])=>`<option value="${v}">${n}</option>`).join('')}</select></label>`).join('');
-  phenotypeFields.forEach(([key])=>$('#phenotype-'+key).addEventListener('change',renderPredictions));
-  $('#resetPhenotype').onclick=()=>{phenotypeFields.forEach(([key])=>$('#phenotype-'+key).value='');renderPredictions()};renderPredictions();
+  $('#phenotypeControls').innerHTML=visiblePhenotypeFields().map(([key,label,options])=>`<label>${label}<select id="phenotype-${key}"><option value="">未観察／不明</option>${Object.entries(options).map(([v,n])=>`<option value="${v}">${n}</option>`).join('')}</select></label>`).join('');
+  visiblePhenotypeFields().forEach(([key])=>$('#phenotype-'+key).addEventListener('change',renderPredictions));
+  $('#resetPhenotype').onclick=()=>{visiblePhenotypeFields().forEach(([key])=>$('#phenotype-'+key).value='');renderPredictions()};renderPredictions();
 }
 function expectedPhenotypes(item,observed={}){
   if(item.phenotypes){
@@ -323,8 +344,8 @@ function expectedPhenotypes(item,observed={}){
   return {...f,...componentPhenotypes(item,observed)};
 }
 function renderPredictions(){
-  const observations=phenotypeFields.filter(([key])=>$('#phenotype-'+key)?.value).map(([key,label,options])=>({key,label,value:$('#phenotype-'+key).value,options}));
-  if(!observations.length){renderNextObservations(null);$('#phenotypeResults').innerHTML='<p>表現型を選ぶと候補と照合根拠が表示されます。</p>';return}
+  const observations=visiblePhenotypeFields().filter(([key])=>$('#phenotype-'+key)?.value).map(([key,label,options])=>({key,label,value:$('#phenotype-'+key).value,options}));
+  if(!observations.length){renderNextObservations(null);$('#phenotypeResults').innerHTML='<p>表現型を選ぶと候補と照合根拠が表示されます。</p>';const selected=species[state.species].proteins.find(x=>x.key===state.selected);if(selected)renderDetail(selected);return}
   const observed=Object.fromEntries(observations.map(o=>[o.key,o.value]));
   const ranked=species[state.species].proteins.map(item=>{const f=expectedPhenotypes(item,observed),match=[],conflict=[],unknown=[];observations.forEach(o=>{if(!f[o.key])unknown.push(o.label);else if(f[o.key]===o.value)match.push(o.label);else conflict.push(o.label+'：モデルでは'+o.options[f[o.key]])});return {item,match,conflict,unknown}}).sort((a,b)=>a.conflict.length-b.conflict.length||b.match.length-a.match.length);
   renderNextObservations(ranked);
