@@ -1,6 +1,14 @@
 // Browserless regression checks. Does not establish scientific predictive accuracy.
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const path=require('node:path');
+const siteRoot=path.join(__dirname,'..');
+const readmePage=fs.readFileSync(path.join(siteRoot,'README.html'),'utf8');
+assert.match(fs.readFileSync(path.join(siteRoot,'index.html'),'utf8'),/href="README\.html"/);
+assert.match(readmePage,/<html lang="en">/);
+assert.match(readmePage,/Yusuke V\. Morimoto/);
+assert.match(readmePage,/森本 雄祐/);
+assert.match(readmePage,/does not grant permission to redistribute or modify/);
+assert.match(readmePage,/ソースの再配布・改変は許諾しません/);
 const elements=new Map();let reduced=false,frames=0;
 class Element{
  constructor(){this.nodeType=1;this.tagName='DIV';this.childNodes=[];this.attrs={};this.value='';this.textContent='';this.innerHTML='';this.dataset={}}

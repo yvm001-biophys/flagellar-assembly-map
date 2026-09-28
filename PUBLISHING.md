@@ -6,7 +6,7 @@
 
 1. https://github.com/ にログインし、右上の `+` → **New repository** を選びます。
 2. Repository name に `flagellar-assembly-map` を入力し、**Public** を選んで **Create repository** を押します。この時点でアップロードしたソースコードは公開されます。公開前に内容を確認してから作業してください。
-3. このZIPをパソコンで**展開**します。GitHubのリポジトリ画面で **Add file → Upload files** を選び、ZIPそのものではなく、展開した `index.html`, `app.js`, `audit.js`, `components.js`, `research.js`, `locale.js`, `styles.css`, `README.md`, `PUBLISHING.md`, `.nojekyll` を**リポジトリの最上位**へアップロードします。ドラッグ時にフォルダー階層ごと入らないよう確認してください。
+3. このZIPをパソコンで**展開**します。GitHubのリポジトリ画面で **Add file → Upload files** を選び、ZIPそのものではなく、展開した `index.html`, `app.js`, `audit.js`, `components.js`, `research.js`, `locale.js`, `styles.css`, `README.html`, `README.md`, `REVIEW.md`, `PUBLISHING.md`, `.nojekyll` を**リポジトリの最上位**へアップロードします。ドラッグ時にフォルダー階層ごと入らないよう確認してください。
 4. 画面下部の **Commit changes** を押します。
 5. リポジトリの **Settings → Pages** で、**Build and deployment → Source: Deploy from a branch**、**Branch: main**、フォルダー **/(root)** を選び、**Save** を押します。
 6. Pages画面に表示されるURL（通常は `https://<GitHubユーザー名>.github.io/flagellar-assembly-map/`）を開きます。反映まで数分かかる場合があります。
@@ -14,6 +14,7 @@
 ## 公開後の確認
 
 - 図と4菌種の切替、英語・日本語の切替が動く。
+- READMEボタンでHTML版の説明・作成者情報・利用条件が読める。
 - `ΔmotA/B` 等では固定子が点線の輪郭になり、`ΔflgE`・`ΔfliC` ではロッドと固定子が残ってモーターが回る。
 - `ΔfliH/I/J` はロッド構築済みの場合の回転として表示され、輸送装置の該当部分が点線になる。
 - 「Find deletion candidates from phenotypes」でロッド「あり」＋モーター回転「あり」を選ぶと、FliH/I/J群を回転「あり」で照合する。ロッドが未観察なら回転判定は「未判定」のままにする。

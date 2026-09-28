@@ -6,6 +6,10 @@
 
 ## English
 
+### Creator
+
+**Yusuke V. Morimoto** — Professor, Kyushu Institute of Technology. This tool was created for research and education on bacterial flagellar assembly. The modeled outcomes and candidate suggestions should be checked against the cited primary literature before research use.
+
 ### Start and navigate
 
 Open [Flagellar Assembly Map](https://flagellar-assembly-map.yvm001.chatgpt.site) if you have access. For local use, open `dist/index.html` in a browser; for static hosting, place the **contents** of `dist/` at the site's web root. The interface starts in English and can be switched to Japanese.
@@ -40,6 +44,10 @@ The tests check all 73 catalog entries, diagram/model consistency, representativ
 **Source-code permissions: The author does not grant permission to redistribute or modify the source code.** Making it available for viewing does not change this policy. Contact the author for permission before redistributing or modifying it.
 
 ## 日本語
+
+### 作成者
+
+**森本 雄祐（Yusuke V. Morimoto）** — 九州工業大学 教授。バクテリアべん毛の構築に関する研究・教育のために本ツールを作成しました。モデルの判定結果と欠損候補は、研究で利用する前に引用した原著論文と照合してください。
 
 ### 概要と操作
 
