@@ -4,6 +4,8 @@ const path=require('node:path');
 const siteRoot=path.join(__dirname,'..');
 const readmePage=fs.readFileSync(path.join(siteRoot,'README.html'),'utf8');
 assert.match(fs.readFileSync(path.join(siteRoot,'index.html'),'utf8'),/href="README\.html"/);
+assert.match(fs.readFileSync(path.join(siteRoot,'index.html'),'utf8'),/class="version-badge">v1\.0</);
+assert.match(readmePage,/Version 1\.0/);
 assert.match(readmePage,/<html lang="en">/);
 assert.match(readmePage,/Yusuke V\. Morimoto/);
 assert.match(readmePage,/森本 雄祐/);

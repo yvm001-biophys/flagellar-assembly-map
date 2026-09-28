@@ -1,4 +1,4 @@
-# Flagellar Assembly Map — GitHub Pages 公開手順
+# Flagellar Assembly Map v1.0 — GitHub Pages 公開手順
 
 このパッケージは静的サイトです。ビルドやAPIキーは不要です。英語が初期表示で、日本語に切り替えられます。
 

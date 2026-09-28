@@ -1,5 +1,7 @@
 # Flagellar Assembly Map
 
+**Version 1.0** · 2026-09-28
+
 **Flagellar Assembly Map** is an interactive guide to how a bacterial flagellum may develop after deletion of a flagellar gene or gene group. It displays a model of the remaining structure, compares the deletion with a wild-type reference, and suggests candidate deletions from observed phenotypes. It is intended for **exploration and teaching**: the candidate list is **not a validated genotype diagnosis**.
 
 [English](#english) · [日本語](#日本語)
